@@ -42,7 +42,7 @@ input CardPaymentInput {
     cardData: String! @doc(description: "Card data encrypted in Tpay way")
 }
 
-input CardPaymentInput {
+input CardTokenPaymentInput {
     incrementId: String! @doc(description: "Magento increment ID for order")
     transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
     token: String! @doc(description: "Card token")
