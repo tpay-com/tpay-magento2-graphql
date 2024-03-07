@@ -1,0 +1,75 @@
+type Query {
+    tpayPaymentMethods: [TpayPaymentMethod] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\PaymentMethods") @doc(description: "Provides Tpay available payment methods with additional data like images, etc.") @cache(cacheable: false)
+}
+
+type Mutation {
+    tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
+    tpayCardTokenPayment(input: CardTokenPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
+    tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
+}
+
+type TpayPaymentMethod @doc(description: "The standard output of tpayPaymentMethods Query, OpenApi Config should be valid") {
+    id: Int @doc(description: "Method ID")
+    fullName: String @doc(description: "Method name")
+    image: String @doc(description: "Method image URL")
+    available: Boolean @doc(description: "Is channel available right now")
+    onlinePayment: Boolean @doc(description: "Determines if instant payment can be done")
+    instantRedirection: Boolean @doc(description: "Determines if instant user redirect has to be processed")
+    groups: [ChannelGroups] @doc(description: "List of channel groups")
+    constraints: [ChannelConstraints] @doc(description: "List of constraints")
+}
+
+type ChannelGroups @doc(description: "Part of TpayPaymentMethod") {
+    id: Int @doc(description: "ID")
+    name: String @doc(description: "Group name")
+    image: Image @doc(description: "IMG object")
+}
+
+type Image {
+    url: String @doc(description: "Image URL")
+}
+
+type ChannelConstraints @doc(description: "Part of TpayPaymentMethod") {
+    field: String @doc(description: "Field to be checked in this condition")
+    type: String @doc(description: "Type like min or max")
+    value: String @doc(description: "Value, can be an amount or value")
+}
+
+
+input CardPaymentInput {
+    incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
+    cardData: String! @doc(description: "Card data encrypted in Tpay way")
+}
+
+input CardPaymentInput {
+    incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
+    token: String! @doc(description: "Card token")
+}
+
+input BlikPaymentInput {
+    incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
+    blikCode: String @doc(description: "BLIK code - use only of code or token fields")
+    token: String @doc(description: "BLIK token - use only of code or token fields")
+}
+
+type CreateTpayTransactionOutput {
+    transaction: String!
+    redirectUrl: String!
+}
+
+type TpayPayOutput {
+    transaction: String!
+    result: String!
+    redirectUrl: String!
+}
+
+input PaymentMethodInput {
+    accept_tos: Boolean!
+}
+
+type Order {
+    tpay: CreateTpayTransactionOutput @doc(description: "Tpay transaction output") @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CreateTransaction")
+}

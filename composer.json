@@ -1,0 +1,16 @@
+{
+    "name": "tpay/magento2-graphql",
+    "description": "Tpay.com module which provides an GraphQL Mutations and Providers to handle payments",
+    "type": "magento2-module",
+    "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Tpay\\Magento2GraphQl\\": ""
+        }
+    }
+}
