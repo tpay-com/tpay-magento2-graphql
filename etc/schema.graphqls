@@ -4,7 +4,6 @@ type Query {
 
 type Mutation {
     tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
-    tpayCardTokenPayment(input: CardTokenPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
     tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
 }
 
@@ -35,24 +34,14 @@ type ChannelConstraints @doc(description: "Part of TpayPaymentMethod") {
     value: String @doc(description: "Value, can be an amount or value")
 }
 
-
 input CardPaymentInput {
     incrementId: String! @doc(description: "Magento increment ID for order")
-    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
-    cardData: String! @doc(description: "Card data encrypted in Tpay way")
-}
-
-input CardTokenPaymentInput {
-    incrementId: String! @doc(description: "Magento increment ID for order")
-    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
-    token: String! @doc(description: "Card token")
 }
 
 input BlikPaymentInput {
     incrementId: String! @doc(description: "Magento increment ID for order")
     transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
-    blikCode: String @doc(description: "BLIK code - use only of code or token fields")
-    token: String @doc(description: "BLIK token - use only of code or token fields")
+    blikCode: String! @doc(description: "BLIK code - use only of code or token fields")
 }
 
 type CreateTpayTransactionOutput {

@@ -9,12 +9,9 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\TestFramework\TestCase\GraphQl\ResponseContainsErrorsException;
 use Tpay\Magento2\Api\TpayConfigInterface;
 use Tpay\Magento2\Api\TpayInterface;
-use Tpay\Magento2\Model\ApiFacade\OpenApi;
 use Tpay\Magento2\Model\ApiFacade\Transaction\TransactionApiFacade;
-use Tpay\Magento2\Model\ApiFacade\Transaction\TransactionOriginApi;
 use Tpay\Magento2\Service\TpayService;
 
 class CreateTransaction implements ResolverInterface
@@ -60,12 +57,17 @@ class CreateTransaction implements ResolverInterface
             $payment = $order->getPayment();
             $paymentData = $payment->getData();
 
-            $transaction = $this->prepareTransaction($order->getIncrementId(), $paymentData);
+            if (!empty($paymentData['additional_information']['card_data']) || $paymentData['additional_information']['card_id']) {
+                return ['transaction' => null, 'redirectUrl' => null];
+            } else {
+                $transaction = $this->prepareTransaction($order->getIncrementId(), $paymentData);
+                $transactionUrl = $transaction['url'];
+            }
+
             if (isset($transaction['transactionId'])) {
                 $paymentData['additional_information']['transaction_id'] = $transaction['transactionId'];
             }
             $this->tpayService->addCommentToHistory($orderId, 'Transaction title ' . $transaction['title']);
-            $transactionUrl = $transaction['url'];
 
             if (true === $this->tpayConfig->redirectToChannel()) {
                 $transactionUrl = str_replace('gtitle', 'title', $transactionUrl);
@@ -83,7 +85,7 @@ class CreateTransaction implements ResolverInterface
         return ['transaction' => $transaction['transactionId'], 'redirectUrl' => $transaction['transactionPaymentUrl']];
     }
 
-    private function prepareTransaction($orderId, array $additionalPaymentInformation)
+    private function prepareTransaction($orderId, array $additionalPaymentInformation): array
     {
         $data = $this->tpay->getTpayFormData($orderId);
 
@@ -94,7 +96,6 @@ class CreateTransaction implements ResolverInterface
             $data['direct'] = 1;
         }
 
-
         $data = $this->transactionApiFacade->originApiFieldCorrect($data);
         $data = $this->transactionApiFacade->translateGroupToChannel($data, $this->tpayConfig->redirectToChannel());
 
@@ -102,6 +103,6 @@ class CreateTransaction implements ResolverInterface
             return $this->transactionApiFacade->createWithInstantRedirection($data);
         }
 
-        return $this->transactionApiFacade->create($data);
+        return $this->transactionApiFacade->createTransaction($data);
     }
 }
