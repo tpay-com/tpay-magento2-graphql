@@ -31,22 +31,22 @@ class BlikPayment implements ResolverInterface
 
             if (true === $this->transactionApiFacade->isOpenApiUse()) {
                 if (isset($transaction['payments']['errors']) && count($transaction['payments']['errors']) > 0) {
-                    return 'error';
+                    return ['redirectUrl' => 'error', 'result' => 'error'];
                 }
 
-                return 'success';
+                return ['redirectUrl' => 'success', 'result' => 'success'];
             }
             $this->checkoutSession->unsQuoteId();
 
             if (!(isset($transaction['result']) && 1 === $transaction['result'])) {
                 $this->tpayService->addCommentToHistory($orderId, 'User has typed wrong blik code and has been redirected to transaction panel in order to finish payment');
 
-                return 'error';
+                return ['redirectUrl' => 'error', 'result' => 'error'];
             }
 
-            return 'success';
+            return ['redirectUrl' => 'success', 'result' => 'success'];
         }
 
-        return 'error';
+        return ['redirectUrl' => 'error', 'result' => 'error'];
     }
 }

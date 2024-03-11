@@ -50,8 +50,8 @@ type CreateTpayTransactionOutput {
 }
 
 type TpayPayOutput {
-    transaction: String!
-    result: String!
+    transaction: String
+    result: String
     redirectUrl: String!
 }
 
