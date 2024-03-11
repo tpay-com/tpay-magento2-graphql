@@ -21,9 +21,9 @@ class CardPayment implements ResolverInterface
         $args = $args['input'];
         $orderId = $args['incrementId'];
         if ($orderId) {
-            return ['redirectUrl' => $this->cardApiFacade->makeCardTransaction($orderId), 'result' => 'success'];
+            return ['redirectUrl' => $this->cardApiFacade->makeCardTransaction($orderId)];
         }
 
-        return ['redirectUrl' => 'error', 'result' => 'error'];
+        return ['redirectUrl' => 'error'];
     }
 }
