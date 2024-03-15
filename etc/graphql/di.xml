@@ -7,8 +7,4 @@
             </argument>
         </arguments>
     </type>
-
-<!--    <type name="PayPro\Przelewy24\Gateway\Request\TransactionUrlRequestBuilder">-->
-<!--        <plugin name="PayPro_Przelewy24GraphQl::modify_graphql_return_url" type="PayPro\Przelewy24GraphQl\Plugin\ModifyGraphQlReturnUrlPlugin"/>-->
-<!--    </type>-->
 </config>

@@ -5,7 +5,7 @@ type Query {
 
 type Mutation {
     tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
-    tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\TokenPayment")
+    tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\StoredCardPayment")
     tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
 }
 
@@ -64,8 +64,8 @@ input BlikPaymentInput {
 }
 
 type CreateTpayTransactionOutput {
-    transaction: String!
-    redirectUrl: String!
+    transaction: String
+    redirectUrl: String
 }
 
 type TpayPayOutput {

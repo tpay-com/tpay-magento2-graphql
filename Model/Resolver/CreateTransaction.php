@@ -9,6 +9,7 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Tpay\Magento2\Api\TpayConfigInterface;
 use Tpay\Magento2\Api\TpayInterface;
 use Tpay\Magento2\Model\ApiFacade\Transaction\TransactionApiFacade;
@@ -22,6 +23,7 @@ class CreateTransaction implements ResolverInterface
     private Session $checkoutSession;
     private OrderRepositoryInterface $orderRepository;
     private TpayService $tpayService;
+    private StoreManagerInterface $storeManager;
 
     public function __construct(
         TpayInterface            $tpay,
@@ -29,7 +31,8 @@ class CreateTransaction implements ResolverInterface
         TpayConfigInterface      $tpayConfig,
         Session                  $checkoutSession,
         OrderRepositoryInterface $orderRepository,
-        TpayService              $tpayService
+        TpayService              $tpayService,
+        StoreManagerInterface $storeManager
     )
     {
         $this->transactionApiFacade = $transactionApiFacade;
@@ -38,6 +41,7 @@ class CreateTransaction implements ResolverInterface
         $this->checkoutSession = $checkoutSession;
         $this->orderRepository = $orderRepository;
         $this->tpayService = $tpayService;
+        $this->storeManager = $storeManager;
     }
 
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
@@ -57,7 +61,7 @@ class CreateTransaction implements ResolverInterface
             $payment = $order->getPayment();
             $paymentData = $payment->getData();
 
-            if (!empty($paymentData['additional_information']['card_data']) || $paymentData['additional_information']['card_id']) {
+            if ('PLN' !== $this->storeManager->getStore()->getCurrentCurrencyCode()) {
                 return ['transaction' => null, 'redirectUrl' => null];
             } else {
                 $transaction = $this->prepareTransaction($order->getIncrementId(), $paymentData);
