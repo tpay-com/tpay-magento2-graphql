@@ -1,5 +1,6 @@
 type Query {
     tpayPaymentMethods: [TpayPaymentMethod] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\PaymentMethods") @doc(description: "Provides Tpay available payment methods with additional data like images, etc.") @cache(cacheable: false)
+    tpayStoredCards: [TpayStoredCard] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\StoredTokens") @doc(descriptions: "Provides list of stored card tokens") @cache(cacheable: false)
 }
 
 type Mutation {
@@ -16,6 +17,14 @@ type TpayPaymentMethod @doc(description: "The standard output of tpayPaymentMeth
     instantRedirection: Boolean @doc(description: "Determines if instant user redirect has to be processed")
     groups: [ChannelGroups] @doc(description: "List of channel groups")
     constraints: [ChannelConstraints] @doc(description: "List of constraints")
+}
+
+type TpayStoredCard @doc(description: "Stored tokens"){
+    tokenId: Int! @doc(description: "Part of TpayPaymentMethod")
+    token: String! @doc(description: "Part of TpayPaymentMethod")
+    cardShortCode: String! @doc(description: "Part of TpayPaymentMethod")
+    vendor: String! @doc(description: "Part of TpayPaymentMethod")
+    crc: String! @doc(description: "Part of TpayPaymentMethod")
 }
 
 type ChannelGroups @doc(description: "Part of TpayPaymentMethod") {
