@@ -5,6 +5,7 @@ type Query {
 
 type Mutation {
     tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
+    tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\TokenPayment")
     tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
 }
 
@@ -45,6 +46,15 @@ type ChannelConstraints @doc(description: "Part of TpayPaymentMethod") {
 
 input CardPaymentInput {
     incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String @doc(description: "Tpay transaction ta_xxxx ID - can be null for OriginApi card sales")
+    cardData: String! @doc(description: "Encrypted card data, example of encryption algorithm can be found in tpaycom/magento2basic")
+    storeCard: Boolean! @doc(description: "Users decision if card token can be stored in your app")
+}
+
+input StoredCardPaymentInput {
+    incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String @doc(description: "Tpay transaction ta_xxxx ID - can be null for OriginApi card sales")
+    tokenId: String! @doc(description: "Token ID from TpayStoredCard type")
 }
 
 input BlikPaymentInput {
