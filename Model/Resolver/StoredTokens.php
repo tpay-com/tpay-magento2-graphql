@@ -30,7 +30,7 @@ class StoredTokens implements ResolverInterface
     public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
     {
         if (false === $context->getExtensionAttributes()->getIsCustomer()) {
-            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.try agin with authorization token'));
+            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized. Try again with authorization token'));
         }
         $customer = $this->getCustomer->execute($context);
 

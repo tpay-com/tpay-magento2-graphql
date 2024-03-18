@@ -27,7 +27,7 @@ class CardPayment implements ResolverInterface
         $orderId = $args['incrementId'];
 
         if (true === $args['storeCard'] && false === $context->getExtensionAttributes()->getIsCustomer()) {
-            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.try agin with authorization token'));
+            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized. Try again with authorization token'));
         }
 
         $this->updateAdditionalData($args);
