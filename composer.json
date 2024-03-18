@@ -7,6 +7,12 @@
         "magento/framework": "^102.0 || ^103.0",
         "tpaycom/magento2basic": "^2.0.0"
     },
+    "repositories": {
+        "composer-magento": {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    },
     "minimum-stability": "dev",
     "autoload": {
         "files": [
@@ -14,12 +20,6 @@
         ],
         "psr-4": {
             "Tpay\\Magento2GraphQl\\": ""
-        }
-    },
-    "repositories": {
-        "composer-magento": {
-            "type": "composer",
-            "url": "https://repo.magento.com/"
         }
     },
     "config": {
