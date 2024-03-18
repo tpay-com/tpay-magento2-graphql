@@ -30,6 +30,6 @@ class StoredTokens implements ResolverInterface
         }
         $customer = $this->getCustomer->execute($context);
 
-        return $this->tokensService->getCustomerTokens($customer->getId(), true/* $this->cardApiFacade->isOpenApiUse() */);
+        return $this->tokensService->getCustomerTokens($customer->getId(),$this->cardApiFacade->isOpenApiUse());
     }
 }
