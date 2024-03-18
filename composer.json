@@ -2,7 +2,7 @@
     "name": "tpay/magento2-graphql",
     "description": "Tpay.com module which provides an GraphQL Mutations and Providers to handle payments",
     "type": "magento2-module",
-    "license": "GPL-3.0",
+    "license": "GPL-3.0-or-later",
     "minimum-stability": "dev",
     "require": {
         "tpaycom/magento2basic": "^2.0.0"

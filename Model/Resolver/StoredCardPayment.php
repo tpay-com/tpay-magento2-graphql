@@ -48,7 +48,7 @@ class StoredCardPayment implements ResolverInterface
     private function handleTokenData(array $token): ?array
     {
         if (!empty($token)) {
-            $token = $token[0];
+            $token = array_values($token)[0];
             $token['cli_auth'] = $token['token'];
             return $token;
         }
