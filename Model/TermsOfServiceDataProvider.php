@@ -2,6 +2,7 @@
 
 namespace Tpay\Magento2GraphQl\Model;
 
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\QuoteGraphQl\Model\Cart\Payment\AdditionalDataProviderInterface;
 use Tpay\Magento2\Api\TpayInterface;
 
