@@ -7,9 +7,7 @@ use Tpay\Magento2\Api\TpayInterface;
 
 class TermsOfServiceDataProvider implements AdditionalDataProviderInterface
 {
-    /**
-     * @throws \Magento\Framework\GraphQl\Exception\GraphQlInputException
-     */
+    /** @throws \Magento\Framework\GraphQl\Exception\GraphQlInputException */
     public function getData(array $data): array
     {
         $code = $data['code'];
