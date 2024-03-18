@@ -3,6 +3,7 @@
 namespace Tpay\Magento2GraphQl\Model\Resolver;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
+use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Tpay\Magento2\Api\TpayInterface;
@@ -24,6 +25,11 @@ class CardPayment implements ResolverInterface
     {
         $args = $args['input'];
         $orderId = $args['incrementId'];
+
+        if (true === $args['storeCard'] && false === $context->getExtensionAttributes()->getIsCustomer()) {
+            throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized.try agin with authorization token'));
+        }
+
         $this->updateAdditionalData($args);
 
         if ($args['transactionId']) {
