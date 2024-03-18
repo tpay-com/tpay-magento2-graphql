@@ -2,6 +2,7 @@
 
 namespace Tpay\Magento2GraphQl\Model\Resolver;
 
+use Exception;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
@@ -26,15 +27,14 @@ class CreateTransaction implements ResolverInterface
     private StoreManagerInterface $storeManager;
 
     public function __construct(
-        TpayInterface            $tpay,
-        TransactionApiFacade     $transactionApiFacade,
-        TpayConfigInterface      $tpayConfig,
-        Session                  $checkoutSession,
+        TpayInterface $tpay,
+        TransactionApiFacade $transactionApiFacade,
+        TpayConfigInterface $tpayConfig,
+        Session $checkoutSession,
         OrderRepositoryInterface $orderRepository,
-        TpayService              $tpayService,
+        TpayService $tpayService,
         StoreManagerInterface $storeManager
-    )
-    {
+    ) {
         $this->transactionApiFacade = $transactionApiFacade;
         $this->tpay = $tpay;
         $this->tpayConfig = $tpayConfig;
@@ -44,15 +44,15 @@ class CreateTransaction implements ResolverInterface
         $this->storeManager = $storeManager;
     }
 
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (!isset($value['order_number'])) {
-            return null;
+            return;
         }
 
         $orderId = $this->checkoutSession->getLastRealOrderId();
         if (!$orderId) {
-            return null;
+            return;
         }
         $transaction = null;
         try {
@@ -63,26 +63,24 @@ class CreateTransaction implements ResolverInterface
 
             if ('PLN' !== $this->storeManager->getStore()->getCurrentCurrencyCode()) {
                 return ['transaction' => null, 'redirectUrl' => null];
-            } else {
-                $transaction = $this->prepareTransaction($order->getIncrementId(), $paymentData);
-                $transactionUrl = $transaction['url'];
             }
+            $transaction = $this->prepareTransaction($order->getIncrementId(), $paymentData);
+            $transactionUrl = $transaction['url'];
 
             if (isset($transaction['transactionId'])) {
                 $paymentData['additional_information']['transaction_id'] = $transaction['transactionId'];
             }
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction title ' . $transaction['title']);
+            $this->tpayService->addCommentToHistory($orderId, 'Transaction title '.$transaction['title']);
 
             if (true === $this->tpayConfig->redirectToChannel()) {
                 $transactionUrl = str_replace('gtitle', 'title', $transactionUrl);
             }
 
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction link ' . $transactionUrl);
+            $this->tpayService->addCommentToHistory($orderId, 'Transaction link '.$transactionUrl);
             $paymentData['additional_information']['transaction_url'] = $transactionUrl;
             $payment->setData($paymentData);
             $this->tpayService->saveOrderPayment($payment);
-
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new GraphQlInputException(new Phrase($e->getMessage()), $e);
         }
 
@@ -93,8 +91,8 @@ class CreateTransaction implements ResolverInterface
     {
         $data = $this->tpay->getTpayFormData($orderId);
 
-        $data['group'] = (int)($additionalPaymentInformation['group'] ?? null);
-        $data['channel'] = (int)($additionalPaymentInformation['channel'] ?? null);
+        $data['group'] = (int) ($additionalPaymentInformation['group'] ?? null);
+        $data['channel'] = (int) ($additionalPaymentInformation['channel'] ?? null);
 
         if ($this->tpayConfig->redirectToChannel()) {
             $data['direct'] = 1;

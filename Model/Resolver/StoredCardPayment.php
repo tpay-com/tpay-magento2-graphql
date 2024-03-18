@@ -21,7 +21,7 @@ class StoredCardPayment implements ResolverInterface
         $this->tpayService = $tpayService;
     }
 
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         $args = $args['input'];
         $orderId = $args['incrementId'];
@@ -50,8 +50,10 @@ class StoredCardPayment implements ResolverInterface
         if (!empty($token)) {
             $token = array_values($token)[0];
             $token['cli_auth'] = $token['token'];
+
             return $token;
         }
+
         return null;
     }
 

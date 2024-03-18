@@ -1,4 +1,5 @@
 <?php
+
 namespace Tpay\Magento2GraphQl\Model;
 
 use Magento\QuoteGraphQl\Model\Cart\Payment\AdditionalDataProviderInterface;
@@ -7,8 +8,6 @@ use Tpay\Magento2\Api\TpayInterface;
 class TermsOfServiceDataProvider implements AdditionalDataProviderInterface
 {
     /**
-     * @param array $data
-     * @return array
      * @throws \Magento\Framework\GraphQl\Exception\GraphQlInputException
      */
     public function getData(array $data): array
@@ -19,7 +18,7 @@ class TermsOfServiceDataProvider implements AdditionalDataProviderInterface
             throw new GraphQlInputException(__('No payment method provided!'));
         }
 
-        $data[$code][TpayInterface::TERMS_ACCEPT] = $data[$code][TpayInterface::TERMS_ACCEPT] ?? false;
+        $data[$code][TpayInterface::TERMS_ACCEPT] ??= false;
 
         return $data[$code];
     }
