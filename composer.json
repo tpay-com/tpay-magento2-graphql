@@ -15,12 +15,12 @@
     },
     "minimum-stability": "dev",
     "autoload": {
-        "files": [
-            "registration.php"
-        ],
         "psr-4": {
             "Tpay\\Magento2GraphQl\\": ""
-        }
+        },
+        "files": [
+            "registration.php"
+        ]
     },
     "config": {
         "allow-plugins": {
