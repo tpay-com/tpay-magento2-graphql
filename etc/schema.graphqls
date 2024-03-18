@@ -49,7 +49,7 @@ input CardPaymentInput {
     transactionId: String @doc(description: "Tpay transaction ta_xxxx ID - can be null for OriginApi card sales")
     cardData: String! @doc(description: "Encrypted card data, example of encryption algorithm can be found in tpaycom/magento2basic")
     storeCard: Boolean! @doc(description: "Users decision if card token can be stored in your app")
-    shortCode: String @doc(description: "Last card charcacter, for example ****0000")
+    shortCode: String @doc(description: "Last card charcacter, for example 0000")
     cardVendor: String @doc(description: "Card vendor")
 }
 
