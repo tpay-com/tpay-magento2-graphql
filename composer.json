@@ -1,5 +1,5 @@
 {
-    "name": "tpay/magento2-graphql",
+    "name": "tpay-com/magento2-graphql",
     "description": "Tpay.com module which provides an GraphQL Mutations and Providers to handle payments",
     "license": "GPL-3.0-or-later",
     "type": "magento2-module",
