@@ -2,16 +2,15 @@
 
 [Tpay](https://tpay.com) payment gateway Magento2 module for GraphQL.
 
-## Manual installation
+## Installation process
 
-1. Go to Magento2 root directory.
+1. Run `composer require tpay-com/magento2-graphql`
 
-2. Copy plugin files to `app/code/Tpay/Magento2GraphQl`.
-
-3. Execute following commands to enable module:
+2. Execute following commands to enable module:
     ```console
     php bin/magento module:enable Tpay_Magento2GraphQl
     php bin/magento setup:upgrade
+    php bin/magento setup:di:compile
     ```
 
 ## Schema
