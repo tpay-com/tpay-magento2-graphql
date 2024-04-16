@@ -46,21 +46,32 @@ class CreateTransaction implements ResolverInterface
 
     public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
-        if (!isset($value['order_number'])) {
-            return;
-        }
+        $args = $args['input'] ?? [];
+        if (isset($args['real_order_id']) && !empty($args['real_order_id'])) {
+            $orderId = $args['real_order_id'];
+        } else {
+            if (!isset($value['order_number'])) {
+                return;
+            }
 
-        $orderId = $this->checkoutSession->getLastRealOrderId();
-        if (!$orderId) {
-            return;
+            $orderId = $this->checkoutSession->getLastRealOrderId();
+            if (!$orderId) {
+                return;
+            }
         }
         $transaction = null;
         try {
             $order = $this->orderRepository->get($orderId);
             /** @var \Magento\Sales\Model\Order\Payment $payment */
             $payment = $order->getPayment();
-            $paymentData = $payment->getData();
+            if (TpayInterface::CODE !== $payment->getMethod()) {
+                return;
+            }
 
+            $paymentData = $payment->getData();
+            if (true !== $paymentData['additional_information']['accept_tos']) {
+                throw new Exception('Tpay terms of service not accepted');
+            }
             if ('PLN' !== $this->storeManager->getStore()->getCurrentCurrencyCode()) {
                 return ['transaction' => null, 'redirectUrl' => null];
             }
