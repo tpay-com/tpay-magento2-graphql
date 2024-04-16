@@ -27,15 +27,14 @@ class CreateTransaction implements ResolverInterface
     private StoreManagerInterface $storeManager;
 
     public function __construct(
-        TpayInterface            $tpay,
-        TransactionApiFacade     $transactionApiFacade,
-        TpayConfigInterface      $tpayConfig,
-        Session                  $checkoutSession,
+        TpayInterface $tpay,
+        TransactionApiFacade $transactionApiFacade,
+        TpayConfigInterface $tpayConfig,
+        Session $checkoutSession,
         OrderRepositoryInterface $orderRepository,
-        TpayService              $tpayService,
-        StoreManagerInterface    $storeManager
-    )
-    {
+        TpayService $tpayService,
+        StoreManagerInterface $storeManager
+    ) {
         $this->transactionApiFacade = $transactionApiFacade;
         $this->tpay = $tpay;
         $this->tpayConfig = $tpayConfig;
@@ -65,13 +64,13 @@ class CreateTransaction implements ResolverInterface
             $order = $this->orderRepository->get($orderId);
             /** @var \Magento\Sales\Model\Order\Payment $payment */
             $payment = $order->getPayment();
-            if ($payment->getMethod() !== TpayInterface::CODE) {
+            if (TpayInterface::CODE !== $payment->getMethod()) {
                 return;
             }
 
             $paymentData = $payment->getData();
-            if ($paymentData['additional_information']['accept_tos'] !== true) {
-                throw new \Exception('Tpay terms of service not accepted');
+            if (true !== $paymentData['additional_information']['accept_tos']) {
+                throw new Exception('Tpay terms of service not accepted');
             }
             if ('PLN' !== $this->storeManager->getStore()->getCurrentCurrencyCode()) {
                 return ['transaction' => null, 'redirectUrl' => null];
@@ -82,13 +81,13 @@ class CreateTransaction implements ResolverInterface
             if (isset($transaction['transactionId'])) {
                 $paymentData['additional_information']['transaction_id'] = $transaction['transactionId'];
             }
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction title ' . $transaction['title']);
+            $this->tpayService->addCommentToHistory($orderId, 'Transaction title '.$transaction['title']);
 
             if (true === $this->tpayConfig->redirectToChannel()) {
                 $transactionUrl = str_replace('gtitle', 'title', $transactionUrl);
             }
 
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction link ' . $transactionUrl);
+            $this->tpayService->addCommentToHistory($orderId, 'Transaction link '.$transactionUrl);
             $paymentData['additional_information']['transaction_url'] = $transactionUrl;
             $payment->setData($paymentData);
             $this->tpayService->saveOrderPayment($payment);
@@ -103,8 +102,8 @@ class CreateTransaction implements ResolverInterface
     {
         $data = $this->tpay->getTpayFormData($orderId);
 
-        $data['group'] = (int)($additionalPaymentInformation['group'] ?? null);
-        $data['channel'] = (int)($additionalPaymentInformation['channel'] ?? null);
+        $data['group'] = (int) ($additionalPaymentInformation['group'] ?? null);
+        $data['channel'] = (int) ($additionalPaymentInformation['channel'] ?? null);
 
         if ($this->tpayConfig->redirectToChannel()) {
             $data['direct'] = 1;

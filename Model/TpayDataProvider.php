@@ -12,10 +12,10 @@ class TpayDataProvider implements AdditionalDataProviderInterface
     public function getData(array $data): array
     {
         $code = $data['code'];
-        if($code === TpayInterface::CODE) {
+        if (TpayInterface::CODE === $code) {
             $data['tpay'][TpayInterface::TERMS_ACCEPT] ??= false;
         }
+
         return $data['tpay'];
     }
 }
-
