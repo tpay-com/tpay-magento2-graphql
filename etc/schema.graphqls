@@ -4,6 +4,7 @@ type Query {
 }
 
 type Mutation {
+    tpayCreateTransaction(input: CreateTpayTransactionInput): CreateTpayTransactionOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CreateTransaction")
     tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
     tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\StoredCardPayment")
     tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
@@ -70,6 +71,10 @@ type CreateTpayTransactionOutput {
     redirectUrl: String
 }
 
+input CreateTpayTransactionInput {
+    real_order_id: String!
+}
+
 type TpayPayOutput {
     transaction: String
     result: String
@@ -77,8 +82,15 @@ type TpayPayOutput {
 }
 
 input PaymentMethodInput {
+    tpay: TpayInput
+}
+
+input TpayInput {
+    channel: Int @doc(description: "Set channel ID, group ID or just ignore it to allow user to choose bank on Tpay paywall")
+    group: Int
     accept_tos: Boolean!
 }
+
 
 type Order {
     tpay: CreateTpayTransactionOutput @doc(description: "Tpay transaction output") @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CreateTransaction")

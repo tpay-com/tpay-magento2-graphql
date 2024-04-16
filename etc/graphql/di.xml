@@ -3,7 +3,7 @@
     <type name="Magento\QuoteGraphQl\Model\Cart\Payment\AdditionalDataProviderPool">
         <arguments>
             <argument name="dataProviders" xsi:type="array">
-                <item name="tpay_tos" xsi:type="object">Tpay\Magento2GraphQl\Model\TermsOfServiceDataProvider</item>
+                <item name="Tpay_Magento2" xsi:type="object">Tpay\Magento2GraphQl\Model\TpayDataProvider</item>
             </argument>
         </arguments>
     </type>
