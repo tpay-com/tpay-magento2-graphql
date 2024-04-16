@@ -102,8 +102,8 @@ class CreateTransaction implements ResolverInterface
     {
         $data = $this->tpay->getTpayFormData($orderId);
 
-        $data['group'] = (int) ($additionalPaymentInformation['group'] ?? null);
-        $data['channel'] = (int) ($additionalPaymentInformation['channel'] ?? null);
+        $data['group'] = (int) ($additionalPaymentInformation['additional_information']['group'] ?? null);
+        $data['channel'] = (int) ($additionalPaymentInformation['additional_information']['channel'] ?? null);
 
         if ($this->tpayConfig->redirectToChannel()) {
             $data['direct'] = 1;
