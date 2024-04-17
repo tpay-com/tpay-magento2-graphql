@@ -15,20 +15,22 @@ need two modules: Magento2 basic and Magento2 GraphQL.
 
 1. Download the module files. In the main Magento folder, run the command:
 
-```
-composer require tpay-com/magento2-graphql
-```
+   ```
+   composer require tpay-com/magento2-graphql
+   ```
 
 2. Turn on the module. In the main Magento folder, run the command:
 
-```
-php bin/magento module:enable Tpay_Magento2GraphQl
-php bin/magento setup:upgrade
-php bin/magento setup:di:compile
-```
+   ```
+   php bin/magento module:enable Tpay_Magento2GraphQl
+   php bin/magento setup:upgrade
+   php bin/magento setup:di:compile
+   ```
 
 ### Technical assistance
 
 If you have any questions, please contact Tpay Customer Service at this link: https://tpay.com/kontakt
 
 ### [Changelog](https://github.com/tpay-com/tpay-magento2-graphql/releases)
+
+### [Schema GraphQL](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/etc/schema.graphqls)

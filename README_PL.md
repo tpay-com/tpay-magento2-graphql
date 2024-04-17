@@ -16,17 +16,17 @@ GraphQL należy zainstalować oba moduły: Magento2 basic oraz Magento2 GraphQL.
 
 1. Pobierz pliki modułu. W głównym folderze Magento wpisz komendę:
 
-```
-composer require tpay-com/magento2-graphql
-```
+   ```
+   composer require tpay-com/magento2-graphql
+   ```
 
 2. Uruchom moduł. W głównym folderze Magento wpisz komendę:
 
-```
-php bin/magento module:enable Tpay_Magento2GraphQl
-php bin/magento setup:upgrade
-php bin/magento setup:di:compile
-```
+   ```
+   php bin/magento module:enable Tpay_Magento2GraphQl
+   php bin/magento setup:upgrade
+   php bin/magento setup:di:compile
+   ```
 
 ### Wsparcie techniczne
 
@@ -34,3 +34,5 @@ W przypadku dodatkowych pytań zapraszamy do kontaktu z Działem Obsługi Klient
 linkiem: https://tpay.com/kontakt
 
 ### [Changelog](https://github.com/tpay-com/tpay-magento2-graphql/releases)
+
+### [Schema GraphQL](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/etc/schema.graphqls)
