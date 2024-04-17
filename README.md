@@ -1,9 +1,12 @@
 # Tpay Payments Module supporting GraphQL for Magento 2
 
+### [Polish version of README](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/README_PL.md)
+
 ### Basic information
 
 Official module for fast online payments via Tpay on Magento 2 switch supporting GraphQl.
-The module is an extensible [Magento2 module for Tpay](https://github.com/tpay-com/tpay-magento2-basic). To manage with Magento 2 GraphQL, you
+The module is an extensible [Magento2 module for Tpay](https://github.com/tpay-com/tpay-magento2-basic). To manage with
+Magento 2 GraphQL, you
 need two modules: Magento2 basic and Magento2 GraphQL.
 
 ### Requirements
