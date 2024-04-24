@@ -10,6 +10,7 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Payment;
 use Magento\Store\Model\StoreManagerInterface;
 use Tpay\Magento2\Api\TpayConfigInterface;
 use Tpay\Magento2\Api\TpayInterface;
@@ -44,28 +45,34 @@ class CreateTransaction implements ResolverInterface
         $this->storeManager = $storeManager;
     }
 
-    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null): ?array
     {
+        if (false === $this->tpayConfig->isTpayActive()) {
+            return null;
+        }
+
         $args = $args['input'] ?? [];
-        if (isset($args['real_order_id']) && !empty($args['real_order_id'])) {
+
+        if (!empty($args['real_order_id'])) {
             $orderId = $args['real_order_id'];
         } else {
             if (!isset($value['order_number'])) {
-                return;
+                return null;
             }
 
             $orderId = $this->checkoutSession->getLastRealOrderId();
+
             if (!$orderId) {
-                return;
+                return null;
             }
         }
-        $transaction = null;
+
         try {
-            $order = $this->orderRepository->get($orderId);
-            /** @var \Magento\Sales\Model\Order\Payment $payment */
+            $order = $this->orderRepository->getByIncrementId($orderId);
+            /** @var Payment $payment */
             $payment = $order->getPayment();
             if (TpayInterface::CODE !== $payment->getMethod()) {
-                return;
+                return null;
             }
 
             $paymentData = $payment->getData();
