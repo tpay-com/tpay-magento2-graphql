@@ -5,7 +5,7 @@
     "type": "magento2-module",
     "require": {
         "magento/framework": "^102.0 || ^103.0",
-        "tpaycom/magento2basic": "~2.0.4"
+        "tpaycom/magento2basic": "~2.0.5"
     },
     "repositories": {
         "composer-magento": {
