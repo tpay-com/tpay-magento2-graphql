@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Tpay\Magento2\Model\TpayPayment">
+        <plugin name="tpay_magento2graphql_plugin_override_urls"
+                type="Tpay\Magento2GraphQl\Plugin\UrlOverride" sortOrder="10" />
+    </type>
+</config>

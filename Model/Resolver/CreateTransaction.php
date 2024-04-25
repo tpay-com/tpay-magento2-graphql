@@ -51,26 +51,21 @@ class CreateTransaction implements ResolverInterface
             return null;
         }
 
-        $args = $args['input'] ?? [];
+        if (!isset($value['order_number'])) {
+            return null;
+        }
 
-        if (!empty($args['real_order_id'])) {
-            $orderId = $args['real_order_id'];
-        } else {
-            if (!isset($value['order_number'])) {
-                return null;
-            }
+        $orderId = $this->checkoutSession->getLastOrderId();
 
-            $orderId = $this->checkoutSession->getLastRealOrderId();
-
-            if (!$orderId) {
-                return null;
-            }
+        if (!$orderId) {
+            return null;
         }
 
         try {
-            $order = $this->orderRepository->getByIncrementId($orderId);
+            $order = $this->orderRepository->get($orderId);
             /** @var Payment $payment */
             $payment = $order->getPayment();
+
             if (TpayInterface::CODE !== $payment->getMethod()) {
                 return null;
             }
@@ -88,13 +83,13 @@ class CreateTransaction implements ResolverInterface
             if (isset($transaction['transactionId'])) {
                 $paymentData['additional_information']['transaction_id'] = $transaction['transactionId'];
             }
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction title '.$transaction['title']);
+            $this->tpayService->addCommentToHistory($order->getIncrementId(), 'Transaction title '.$transaction['title']);
 
             if (true === $this->tpayConfig->redirectToChannel()) {
                 $transactionUrl = str_replace('gtitle', 'title', $transactionUrl);
             }
 
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction link '.$transactionUrl);
+            $this->tpayService->addCommentToHistory($order->getIncrementId(), 'Transaction link '.$transactionUrl);
             $paymentData['additional_information']['transaction_url'] = $transactionUrl;
             $payment->setData($paymentData);
             $this->tpayService->saveOrderPayment($payment);

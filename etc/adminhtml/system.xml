@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ *
+ * @category    payment gateway
+ * @package     Tpaycom_Magento2.3
+ * @author      Tpay.com
+ * @copyright   (https://tpay.com)
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="tpaycom_magento2basic" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                <group id="graphql_url_override" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>GraphQL Settings</label>
+                    <attribute type="expanded">1</attribute>
+                    <field id="success_url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Success URL</label>
+                    </field>
+                    <field id="error_url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Error URL</label>
+                    </field>
+                    <field id="notification_url" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Notification URL</label>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>
