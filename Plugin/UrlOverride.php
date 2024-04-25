@@ -2,8 +2,8 @@
 
 namespace Tpay\Magento2GraphQl\Plugin;
 
-use Tpay\Magento2\Provider\ConfigurationProvider;
 use Tpay\Magento2\Model\TpayPayment;
+use Tpay\Magento2\Provider\ConfigurationProvider;
 
 class UrlOverride
 {
@@ -20,15 +20,15 @@ class UrlOverride
         $errorUrl = $this->tpayConfig->getConfigData('graphql_url_override/error_url', $storeId);
         $notificationUrl = $this->tpayConfig->getConfigData('graphql_url_override/notification_url', $storeId);
 
-        if(!empty($successUrl)){
+        if (!empty($successUrl)) {
             $result['return_url'] = $successUrl;
         }
 
-        if(!empty($errorUrl)){
+        if (!empty($errorUrl)) {
             $result['return_error_url'] = $errorUrl;
         }
 
-        if(!empty($notificationUrl)){
+        if (!empty($notificationUrl)) {
             $result['result_url'] = $notificationUrl;
         }
 
