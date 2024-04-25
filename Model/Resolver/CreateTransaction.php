@@ -10,6 +10,7 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Framework\Phrase;
 use Magento\Sales\Api\OrderRepositoryInterface;
+use Magento\Sales\Model\Order\Payment;
 use Magento\Store\Model\StoreManagerInterface;
 use Tpay\Magento2\Api\TpayConfigInterface;
 use Tpay\Magento2\Api\TpayInterface;
@@ -44,28 +45,29 @@ class CreateTransaction implements ResolverInterface
         $this->storeManager = $storeManager;
     }
 
-    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null): ?array
     {
-        $args = $args['input'] ?? [];
-        if (isset($args['real_order_id']) && !empty($args['real_order_id'])) {
-            $orderId = $args['real_order_id'];
-        } else {
-            if (!isset($value['order_number'])) {
-                return;
-            }
-
-            $orderId = $this->checkoutSession->getLastRealOrderId();
-            if (!$orderId) {
-                return;
-            }
+        if (false === $this->tpayConfig->isTpayActive()) {
+            return null;
         }
-        $transaction = null;
+
+        if (!isset($value['order_number'])) {
+            return null;
+        }
+
+        $orderId = $this->checkoutSession->getLastOrderId();
+
+        if (!$orderId) {
+            return null;
+        }
+
         try {
             $order = $this->orderRepository->get($orderId);
-            /** @var \Magento\Sales\Model\Order\Payment $payment */
+            /** @var Payment $payment */
             $payment = $order->getPayment();
+
             if (TpayInterface::CODE !== $payment->getMethod()) {
-                return;
+                return null;
             }
 
             $paymentData = $payment->getData();
@@ -81,13 +83,13 @@ class CreateTransaction implements ResolverInterface
             if (isset($transaction['transactionId'])) {
                 $paymentData['additional_information']['transaction_id'] = $transaction['transactionId'];
             }
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction title '.$transaction['title']);
+            $this->tpayService->addCommentToHistory($order->getIncrementId(), 'Transaction title '.$transaction['title']);
 
             if (true === $this->tpayConfig->redirectToChannel()) {
                 $transactionUrl = str_replace('gtitle', 'title', $transactionUrl);
             }
 
-            $this->tpayService->addCommentToHistory($orderId, 'Transaction link '.$transactionUrl);
+            $this->tpayService->addCommentToHistory($order->getIncrementId(), 'Transaction link '.$transactionUrl);
             $paymentData['additional_information']['transaction_url'] = $transactionUrl;
             $payment->setData($paymentData);
             $this->tpayService->saveOrderPayment($payment);
