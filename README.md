@@ -85,6 +85,6 @@ need two modules: Magento2 basic and Magento2 GraphQL.
 
 If you have any questions, please contact Tpay Customer Service at this link: https://tpay.com/kontakt
 
-### [Changelog](https://github.com/tpay-com/tpay-magento2-graphql/releases)](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/CHANGELOG.MD)
+### [Changelog](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/CHANGELOG.MD)
 
 ### [Schema GraphQL](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/etc/schema.graphqls)
