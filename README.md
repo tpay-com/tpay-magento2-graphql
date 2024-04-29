@@ -49,4 +49,4 @@ If you have any questions, please contact Tpay Customer Service at this link: ht
 
 ### [Changelog](https://github.com/tpay-com/tpay-magento2-graphql/releases)
 
-### [Schema GraphQL](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/etc/schema.graphqls)# Tpay Payments Module supporting GraphQL for Magento 2
+### [Schema GraphQL](https://github.com/tpay-com/tpay-magento2-graphql/blob/master/etc/schema.graphqls)
