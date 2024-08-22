@@ -14,11 +14,11 @@ class UrlOverride
         $this->tpayConfig = $tpayConfig;
     }
 
-    public function afterGetTpayFormData(TpayPayment $subject, $result, $name, $storeId = 0)
+    public function afterGetTpayFormData(TpayPayment $subject, $result)
     {
-        $successUrl = $this->tpayConfig->getConfigData('graphql_url_override/success_url', $storeId);
-        $errorUrl = $this->tpayConfig->getConfigData('graphql_url_override/error_url', $storeId);
-        $notificationUrl = $this->tpayConfig->getConfigData('graphql_url_override/notification_url', $storeId);
+        $successUrl = $this->tpayConfig->getConfigData('graphql_url_override/success_url', $subject->getStore());
+        $errorUrl = $this->tpayConfig->getConfigData('graphql_url_override/error_url', $subject->getStore());
+        $notificationUrl = $this->tpayConfig->getConfigData('graphql_url_override/notification_url', $subject->getStore());
 
         if (!empty($successUrl)) {
             $result['return_url'] = $successUrl;
