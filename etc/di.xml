@@ -4,6 +4,4 @@
         <plugin name="tpay_magento2graphql_plugin_override_urls"
                 type="Tpay\Magento2GraphQl\Plugin\UrlOverride" sortOrder="10" />
     </type>
-    <preference for="Tpay\Magento2\Service\TpayAliasServiceInterface" type="Tpay\Magento2\Service\TpayAliasService" />
-    <preference for="Tpay\Magento2\Model\Api\AliasRepositoryInterface" type="Tpay\Magento2\Model\AliasRepository" />
 </config>
