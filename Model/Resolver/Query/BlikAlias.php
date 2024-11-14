@@ -20,10 +20,7 @@ class BlikAlias implements ResolverInterface
         $this->getCustomer = $getCustomer;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (false === $context->getExtensionAttributes()->getIsCustomer()) {
             throw new GraphQlAuthorizationException(__('The current customer isn\'t authorized. Try again with authorization token'));
