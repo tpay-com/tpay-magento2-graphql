@@ -1,6 +1,6 @@
 <?php
 
-namespace Tpay\Magento2GraphQl\Model\Resolver;
+namespace Tpay\Magento2GraphQl\Model\Resolver\Mutation;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlAuthorizationException;
