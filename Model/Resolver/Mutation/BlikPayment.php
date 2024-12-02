@@ -26,8 +26,9 @@ class BlikPayment implements ResolverInterface
     {
         $args = $args['input'];
         $orderId = $args['incrementId'];
+
         if ($orderId) {
-            $transaction = $this->transactionApiFacade->blik($args['transactionId'], $args['blikCode']);
+            $transaction = $this->transactionApiFacade->blik($args['transactionId'], $args['blikCode'], $args['blikAlias']);
 
             if (true === $this->transactionApiFacade->isOpenApiUse()) {
                 if (isset($transaction['payments']['errors']) && count($transaction['payments']['errors']) > 0) {

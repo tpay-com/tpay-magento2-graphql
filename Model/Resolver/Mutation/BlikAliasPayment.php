@@ -7,27 +7,32 @@ use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Tpay\Magento2\Model\ApiFacade\Transaction\TransactionApiFacade;
+use Tpay\Magento2\Service\TpayAliasService;
 use Tpay\Magento2\Service\TpayService;
 
 class BlikAliasPayment implements ResolverInterface
 {
     private TransactionApiFacade $transactionApiFacade;
     private Session $checkoutSession;
-    private TpayService $tpayService;
+    private \Magento\Customer\Model\Session $customerSession;
+    private TpayAliasService $aliasService;
 
-    public function __construct(TransactionApiFacade $transactionApiFacade, Session $checkoutSession, TpayService $tpayService)
+    public function __construct(TransactionApiFacade $transactionApiFacade, Session $checkoutSession, TpayService $tpayService, TpayAliasService $aliasService, \Magento\Customer\Model\Session $customerSession)
     {
         $this->transactionApiFacade = $transactionApiFacade;
         $this->checkoutSession = $checkoutSession;
-        $this->tpayService = $tpayService;
+        $this->aliasService = $aliasService;
+        $this->customerSession = $customerSession;
     }
 
     public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         $args = $args['input'];
         $orderId = $args['incrementId'];
+
         if ($orderId) {
-            $transaction = $this->transactionApiFacade->blikAlias($args['transactionId'], $args['alias']);
+            $alias = $this->aliasService->getCustomerAlias($this->customerSession->getCustomerId());
+            $transaction = $this->transactionApiFacade->blikAlias($args['transactionId'], $alias);
 
             if (true === $this->transactionApiFacade->isOpenApiUse()) {
                 if (isset($transaction['payments']['errors']) && count($transaction['payments']['errors']) > 0) {
@@ -38,12 +43,6 @@ class BlikAliasPayment implements ResolverInterface
             }
 
             $this->checkoutSession->unsQuoteId();
-
-            if (!(isset($transaction['result']) && 1 === $transaction['result'])) {
-                $this->tpayService->addCommentToHistory($orderId, 'User has typed wrong blik code and has been redirected to transaction panel in order to finish payment');
-
-                return ['redirectUrl' => 'error'];
-            }
 
             return ['redirectUrl' => 'success'];
         }
