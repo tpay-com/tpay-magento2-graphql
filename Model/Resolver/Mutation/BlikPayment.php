@@ -16,7 +16,6 @@ class BlikPayment implements ResolverInterface
     private TransactionApiFacade $transactionApiFacade;
     private Session $checkoutSession;
     private TpayService $tpayService;
-
     private \Magento\Customer\Model\Session $customerSession;
     private TpayAliasService $aliasService;
 
