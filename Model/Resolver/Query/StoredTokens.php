@@ -1,6 +1,6 @@
 <?php
 
-namespace Tpay\Magento2GraphQl\Model\Resolver;
+namespace Tpay\Magento2GraphQl\Model\Resolver\Query;
 
 use Magento\CustomerGraphQl\Model\Customer\GetCustomer;
 use Magento\Framework\GraphQl\Config\Element\Field;

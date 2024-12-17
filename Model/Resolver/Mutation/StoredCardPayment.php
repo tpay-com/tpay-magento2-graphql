@@ -1,12 +1,13 @@
 <?php
 
-namespace Tpay\Magento2GraphQl\Model\Resolver;
+namespace Tpay\Magento2GraphQl\Model\Resolver\Mutation;
 
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Tpay\Magento2\Model\ApiFacade\CardTransaction\CardApiFacade;
 use Tpay\Magento2\Service\TpayService;
+use Tpay\Magento2GraphQl\Model\Resolver\Query\StoredTokens;
 
 class StoredCardPayment implements ResolverInterface
 {

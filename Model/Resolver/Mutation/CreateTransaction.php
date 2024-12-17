@@ -1,6 +1,6 @@
 <?php
 
-namespace Tpay\Magento2GraphQl\Model\Resolver;
+namespace Tpay\Magento2GraphQl\Model\Resolver\Mutation;
 
 use Exception;
 use Magento\Checkout\Model\Session;

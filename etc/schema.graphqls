@@ -1,13 +1,19 @@
 type Query {
-    tpayPaymentMethods: [TpayPaymentMethod] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\PaymentMethods") @doc(description: "Provides Tpay available payment methods with additional data like images, etc.") @cache(cacheable: false)
-    tpayStoredCards: [TpayStoredCard] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\StoredTokens") @doc(descriptions: "Provides list of stored card tokens") @cache(cacheable: false)
+    tpayPaymentMethods: [TpayPaymentMethod] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Query\\PaymentMethods") @doc(description: "Provides Tpay available payment methods with additional data like images, etc.") @cache(cacheable: false)
+    tpayStoredCards: [TpayStoredCard] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Query\\StoredTokens") @doc(description: "Provides list of stored card tokens") @cache(cacheable: false)
+    tpayBlikStoredAlias: [TpayStoredBlikAlias] @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Query\\BlikAlias") @doc(description: "Provides list of stored blik aliases") @cache(cacheable: false)
 }
 
 type Mutation {
-    tpayCreateTransaction(input: CreateTpayTransactionInput): CreateTpayTransactionOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CreateTransaction")
-    tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CardPayment")
-    tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\StoredCardPayment")
-    tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\BlikPayment")
+    tpayCreateTransaction(input: CreateTpayTransactionInput): CreateTpayTransactionOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\CreateTransaction")
+    tpayCardPayment(input: CardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\CardPayment")
+    tpayStoredCardPayment(input: StoredCardPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\StoredCardPayment")
+    tpayBlikPayment(input: BlikPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\BlikPayment")
+    tpayBlikAliasPayment(input: BlikAliasPaymentInput): TpayPayOutput @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\BlikAliasPayment")
+}
+
+type TpayStoredBlikAlias @doc(description: "Stored blik alias") {
+    alias: String! @doc(description: "Blik alias")
 }
 
 type TpayPaymentMethod @doc(description: "The standard output of tpayPaymentMethods Query, OpenApi Config should be valid") {
@@ -60,6 +66,12 @@ input StoredCardPaymentInput {
     tokenId: String! @doc(description: "Token ID from TpayStoredCard type")
 }
 
+input BlikAliasPaymentInput {
+    incrementId: String! @doc(description: "Magento increment ID for order")
+    transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
+    blikAlias: String! @doc(description: "BLIK alias")
+}
+
 input BlikPaymentInput {
     incrementId: String! @doc(description: "Magento increment ID for order")
     transactionId: String! @doc(description: "Tpay transaction ta_xxxx ID")
@@ -91,7 +103,6 @@ input TpayInput {
     accept_tos: Boolean!
 }
 
-
 type Order {
-    tpay: CreateTpayTransactionOutput @doc(description: "Tpay transaction output") @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\CreateTransaction")
+    tpay: CreateTpayTransactionOutput @doc(description: "Tpay transaction output") @resolver(class: "Tpay\\Magento2GraphQl\\Model\\Resolver\\Mutation\\CreateTransaction")
 }
