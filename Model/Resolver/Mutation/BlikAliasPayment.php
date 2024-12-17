@@ -17,7 +17,7 @@ class BlikAliasPayment implements ResolverInterface
     private \Magento\Customer\Model\Session $customerSession;
     private TpayAliasService $aliasService;
 
-    public function __construct(TransactionApiFacade $transactionApiFacade, Session $checkoutSession, TpayService $tpayService, TpayAliasService $aliasService, \Magento\Customer\Model\Session $customerSession)
+    public function __construct(TransactionApiFacade $transactionApiFacade, Session $checkoutSession, TpayAliasService $aliasService, \Magento\Customer\Model\Session $customerSession)
     {
         $this->transactionApiFacade = $transactionApiFacade;
         $this->checkoutSession = $checkoutSession;
