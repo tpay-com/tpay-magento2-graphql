@@ -8,7 +8,6 @@ use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Tpay\Magento2\Model\ApiFacade\Transaction\TransactionApiFacade;
 use Tpay\Magento2\Service\TpayAliasService;
-use Tpay\Magento2\Service\TpayService;
 
 class BlikAliasPayment implements ResolverInterface
 {
