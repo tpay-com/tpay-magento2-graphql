@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ac03fbc52789079e2b37f8530f1dbeb1",
+    "content-hash": "e9f394f9688a891b5ebfd0b7239f59f2",
     "packages": [
         {
             "name": "amphp/amp",
@@ -5976,16 +5976,16 @@
         },
         {
             "name": "tpaycom/magento2basic",
-            "version": "2.1.6",
+            "version": "2.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tpay-com/tpay-magento2-basic.git",
-                "reference": "3b72214483845e12ef6a69cfe33b74ce9298f60c"
+                "reference": "d78bcf8038d2efe8aa65d99270edc584f56490f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tpay-com/tpay-magento2-basic/zipball/3b72214483845e12ef6a69cfe33b74ce9298f60c",
-                "reference": "3b72214483845e12ef6a69cfe33b74ce9298f60c"
+                "url": "https://api.github.com/repos/tpay-com/tpay-magento2-basic/zipball/d78bcf8038d2efe8aa65d99270edc584f56490f3",
+                "reference": "d78bcf8038d2efe8aa65d99270edc584f56490f3"
             },
             "require": {
                 "ext-json": "*",
@@ -6327,5 +6327,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.6.0"
 }

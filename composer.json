@@ -6,7 +6,7 @@
     "require": {
         "php": ">=7.4",
         "magento/framework": "^102.0 || ^103.0",
-        "tpaycom/magento2basic": "~2.1.6"
+        "tpaycom/magento2basic": "~2.1.7"
     },
     "repositories": {
         "composer-magento": {
